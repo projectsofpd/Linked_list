@@ -1,0 +1,109 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node* next;
+};
+//insertion in begining 
+void push(struct node** head_node,int new_data){
+    
+    struct node* new_node=(struct node*)malloc(sizeof(struct node));
+    new_node->data=new_data;
+    new_node->next=(* head_node);
+    (* head_node)=new_node;
+    
+}
+    //insertion intermediate
+void insertAfter(struct node* prev_node,int new_data){
+    if(prev_node == NULL){
+        printf("This node cannot be null");
+        return;
+    }
+    struct node* new_node=(struct node*)malloc(sizeof(struct node));
+    
+    new_node->data=new_data;
+    new_node->next=prev_node->next;
+    prev_node->next=new_node;
+}
+
+//inserion last
+void append(struct node** head_ref, int new_data){
+     struct node* new_node=(struct node*)malloc(sizeof(struct node));
+     new_node->data=new_data;
+     new_node->next=NULL;
+     
+     struct node *last = *head_ref;
+     
+     
+     if(*head_ref==NULL){
+         *head_ref=new_node;
+         return;
+     }
+    
+     while(last->next !=NULL){
+         last=last->next;
+         
+     }
+     last->next=new_node;
+     return;
+    
+}  
+//print
+void printList(struct node* n){
+    while(n->next!=NULL){
+        n=n->next;
+        printf("%d",n->data);
+    }
+    
+}
+
+void deleteNode(struct node** head_ref, int key){
+    struct node* temp = *head_ref,*prev;
+    
+    if(temp->data==key && temp!=NULL){
+        *head_ref=temp->next;
+        free(temp);
+        return;
+    }
+    while(temp->data != key && temp !=NULL){
+        prev=temp;
+        temp=temp->next;
+    }
+    
+    if (temp == NULL) return; 
+    prev->next=temp->next;
+    free(temp);
+}
+
+
+
+int main(){
+    struct node *head=NULL;
+   append(&head, 6); 
+  
+  // Insert 7 at the beginning. So linked list becomes 7->6->NULL 
+  push(&head, 3); 
+  
+  // Insert 1 at the beginning. So linked list becomes 1->7->6->NULL 
+ 
+  
+  // Insert 4 at the end. So linked list becomes 1->7->6->4->NULL 
+  append(&head, 4); 
+  push(&head, 3); 
+  insertAfter(head->next, 8); 
+  insertAfter(head->next->next->next, 9); 
+  deleteNode(&head, 9);
+   printf("\n Created Linked list is: "); 
+  printList(head); 
+  
+  return 0; 
+    
+}
+   
+    
+    
+    
+    
+    
+
